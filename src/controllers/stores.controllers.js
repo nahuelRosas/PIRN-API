@@ -42,7 +42,45 @@ const ISDB = async () => {
   }
   return GDB;
 };
+const GSBN = async (name) => {
+  //GET STORE BY NAME
+  let store = await Stores.findAll({
+    where: { name: name },
+  });
+  return store[0];
+};
 
+const MSA = async (array) => {
+  //MAP STORE ARRANGEMENT
+  const newArr = [];
+  if (!Array.isArray(array)) {
+    if (typeof array !== "string") {
+      return (array[0] = undefined);
+    }
+    newArr.push(array);
+  } else {
+    newArr = [...array];
+  }
+  const results = await Promise.all(
+    array.map(async (e) => {
+      return await GSBN(e);
+    })
+  );
+  const checkResults = [];
+  results.forEach((e) => {
+    if (e !== undefined) {
+      checkResults.push(e);
+    }
+  });
+  return checkResults;
+};
+
+const ASV = async (videoGame, stores) => {
+  //ADD STORES VIDEOGAME
+  const _stores = await MSA(stores);
+  _stores[0] !== undefined ? videoGame.addStores(_stores) : null;
+};
 module.exports = {
   ISDB, // IMPORT STORES DATA BASE
+  ASV, //ADD STORES VIDEOGAME
 };

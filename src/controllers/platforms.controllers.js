@@ -42,6 +42,46 @@ const IPDB = async () => {
   return GDB;
 };
 
+const GPBN = async (name) => {
+  //GET PLATFORM BY NAME
+  let platform = await Platforms.findAll({
+    where: { name: name },
+  });
+  return platform[0];
+};
+
+const MPA = async (array) => {
+  //MAP PLATFORM ARRANGEMENT
+  let newArr = [];
+  if (!Array.isArray(array)) {
+    if (typeof array !== "string") {
+      return (array[0] = undefined);
+    }
+    newArr.push(array);
+  } else {
+    newArr = [...array];
+  }
+  const results = await Promise.all(
+    newArr.map(async (e) => {
+      return await GPBN(e);
+    })
+  );
+  const checkResults = [];
+  results.forEach((e) => {
+    if (e !== undefined) {
+      checkResults.push(e);
+    }
+  });
+  return checkResults;
+};
+
+const APV = async (videoGame, platforms) => {
+  //ADD PLATFORMS VIDEOGAME
+  const _platforms = await MPA(platforms);
+  _platforms[0] !== undefined ? videoGame.addPlatforms(_platforms) : null;
+};
+
 module.exports = {
   IPDB, // IMPORT PLATFORMS DATA BASE
+  APV, //ADD PLATFORMS VIDEOGAME
 };

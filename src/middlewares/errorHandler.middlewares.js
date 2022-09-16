@@ -1,13 +1,11 @@
 const { PLE } = require("../utils/processLog.utils");
 
-const EH = (err, req, res, next) => {
+const EH = (req, res, next) => {
   // EH => Error Handler
-  const status = err.status || 500;
-  const message = err.message || err;
-
-  PLE(`${message} --- Status:${status}`, __filename, "error");
-
+  const message = `This page does not exist, from PIRN we apologize`;
+  const status = 500;
+  PLE(`${message} --- Status:${status} `, __filename, "error");
   res.status(status).send(message);
 };
 
-module.exports = { EH };
+module.exports = EH;

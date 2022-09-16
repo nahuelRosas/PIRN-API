@@ -1,5 +1,5 @@
 const { PLE } = require("../utils/processLog.utils");
-const { Op } = require("sequelize");
+const { Op, where, fn, col } = require("sequelize");
 const axios = require("axios");
 const { API_URL_V, API_KEY } = process.env;
 
@@ -32,13 +32,11 @@ const GGA = async () => {
           platforms: element.platforms.map((e) => e.platform.name),
           genres: element.genres.map((e) => e.name),
           stores: element.stores.map((e) => e.store.name),
-          tags: element.tags.map((e) => e.name),
         });
       });
       URL = response.data.next;
     } catch (e) {
-      const basename = path.basename(__filename);
-      return PLE(e, basename);
+      return PLE(e, __filename, "error");
     }
   }
   return games;
@@ -51,10 +49,7 @@ const GGBNA = async (Name) => {
   let URL = `${API_URL_V}?key=${API_KEY}&search=${Name}`;
 
   try {
-    let response =
-      //{ status: 400 }; ==> Test Catch Error
-      await axios.get(URL);
-
+    let response = await axios.get(URL);
     response.data.results.forEach((element) => {
       games.push({
         id: element.id,
@@ -62,15 +57,21 @@ const GGBNA = async (Name) => {
         released: element.released,
         background_image: element.background_image,
         rating: element.rating,
-        platforms: element.platforms.map((e) => e.platform.name),
-        genres: element.genres.map((e) => e.name),
-        stores: element.stores.map((e) => e.store.name),
-        tags: element.tags.map((e) => e.name),
+        platforms:
+          element.platforms !== null
+            ? element.platforms.map((e) => e.platform.name)
+            : null,
+        genres:
+          element.genres !== null ? element.genres.map((e) => e.name) : null,
+        stores:
+          element.stores !== null
+            ? element.stores.map((e) => e.store.name)
+            : null,
       });
     });
     return games;
   } catch (e) {
-    return PLE(e, __filename);
+    return PLE(e, __filename, "error");
   }
 };
 
@@ -95,35 +96,51 @@ const GGBIA = async (ID) => {
     };
     return game;
   } catch (e) {
-    return PLE(e, __filename);
+    return PLE(e, __filename, "error");
   }
 };
 
-// TODO -- GAMES BY DB
+// !! -- GAMES BY DB
 
 const GGDB = async () => {
   // GET GAMES DATABASE -- All Games in DB
+  const games = [];
   try {
     let response = await Videogames.findAll({
-      include: {
-        model: Genres,
-        attributes: ["name"],
-        through: {
-          attributes: [],
+      include: [
+        {
+          model: Genres,
+          through: {
+            attributes: [],
+          },
         },
-      },
+        {
+          model: Platforms,
+          through: {
+            attributes: [],
+          },
+        },
+        {
+          model: Stores,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
     });
-    let games = {
-      id: response.id,
-      name: response.name,
-      released: response.released,
-      background_image: response.background_image,
-      rating: response.rating,
-      platforms: response.platforms.map((e) => e.platform.name),
-      genres: response.genres.map((e) => e.name),
-      stores: response.stores.map((e) => e.store.name),
-      tags: response.tags.map((e) => e.name),
-    };
+    response.forEach((element) => {
+      games.push({
+        id: element.dataValues.id,
+        name: element.dataValues.name,
+        released: element.dataValues.released,
+        background_image: element.dataValues.background_image,
+        rating: element.dataValues.rating,
+        platforms: element.dataValues.platforms.map((e) => e.dataValues.name),
+        genres: element.dataValues.genres.map((e) => e.dataValues.name),
+        stores: element.dataValues.stores.map((e) => e.dataValues.name),
+        description: element.dataValues.description,
+      });
+    });
     return games;
   } catch (e) {
     return PLE(e, __filename);
@@ -132,95 +149,113 @@ const GGDB = async () => {
 
 const GGBNDB = async (Name) => {
   // GET GAMES BY NAME DATABASE -- 20 Games in DB
+  const games = [];
+
   try {
     let response = await Videogames.findAll({
+      where: {
+        name: { [Op.iLike]: `%${Name}%` },
+      },
       include: [
         {
           model: Genres,
-          attributes: ["name"],
           through: {
             attributes: [],
           },
         },
         {
           model: Platforms,
-          attributes: ["name"],
           through: {
             attributes: [],
           },
         },
         {
           model: Stores,
-          attributes: ["name"],
           through: {
             attributes: [],
           },
         },
       ],
-      name: {
-        [Op.like]: `%${Name}%`,
-      },
     });
-
-    // let games = {
-    //   id: response.id,
-    //   name: response.name,
-    //   released: response.released,
-    //   background_image: response.background_image,
-    //   rating: response.rating,
-    //   platforms: response.platforms.map((e) => e.platform.name),
-    //   genres: response.genres.map((e) => e.name),
-    //   stores: response.stores.map((e) => e.store.name),
-    //   tags: response.tags.map((e) => e.name),
-    // };
-    return response;
+    response.forEach((element) => {
+      games.push({
+        id: element.dataValues.id,
+        name: element.dataValues.name,
+        released: element.dataValues.released,
+        background_image: element.dataValues.background_image,
+        rating: element.dataValues.rating,
+        platforms: element.dataValues.platforms.map((e) => e.dataValues.name),
+        genres: element.dataValues.genres.map((e) => e.dataValues.name),
+        stores: element.dataValues.stores.map((e) => e.dataValues.name),
+        description: element.dataValues.description,
+      });
+    });
+    return games;
   } catch (e) {
     return PLE(e, __filename);
   }
 };
 
-const infoAll = async () => {
-  const api = await infoApi();
-  const db = await infoDb();
-  const infoTotal = [...api, ...db];
-  return infoTotal;
-};
-
-const infoById = async (id) => {
-  if (typeof id === "string" && id.length > 8) {
-    const infoIdDb = await Videogame.findByPk(id, {
-      include: {
-        model: Genre,
-        attributes: ["name"],
-        through: {
-          attributes: [],
-        },
-      },
-    });
-    return infoIdDb;
-  } else {
-    const infoIdApi = await axios.get(`${URL}/${id}?key=${APIKEY}`);
-    const e = infoIdApi.data;
-    const info = {
-      id: e.id,
-      name: e.name,
-      image: e.background_image,
-      description: e.description_raw,
-      released: e.released,
-      rating: e.rating,
-      platform: e.platforms.map((e) => e.platform.name),
-      genres: e.genres.map((e) => e.name),
-    };
-    return info;
+// !! -- GAMES CONCAT
+const GGDBA = async (testing = false, name) => {
+  // GET GAME DATABASE & API
+  if (name === undefined) {
+    const _GGDB = await GGDB();
+    if (!testing) {
+      const _GGA = await GGA();
+      const results = [..._GGA, ..._GGDB];
+      return results;
+    }
+    return _GGDB;
   }
+  const _GGBNDB = await GGBNDB(name);
+  if (!testing) {
+    const _GGBNA = await GGBNA(name);
+    if (_GGBNA && _GGBNDB) {
+      const results = [..._GGBNDB, ..._GGBNA];
+      return results.slice(0, 16);
+    }
+    return "Not Found";
+  }
+  return _GGBNDB;
 };
 
-// GGBNDB("Na").then((result) => console.log(result));
+//! -- CREATE GAME
+const CG = async (OBJ) => {
+  //CREATE GAME
+  const { AGV } = require("../controllers/genres.controllers");
+  const { APV } = require("../controllers/platforms.controllers");
+  const { ASV } = require("../controllers/stores.controllers");
+  const {
+    name,
+    released,
+    background_image,
+    rating,
+    platforms,
+    genres,
+    stores,
+    description,
+  } = OBJ;
+  const game = await Videogames.create({
+    name: name,
+    released: released,
+    background_image: background_image,
+    rating: rating,
+    description: description,
+  });
+ 
+  if (genres !== undefined) AGV(game, genres);
+  if (platforms !== undefined) APV(game, platforms);
+  if (stores !== undefined) ASV(game, stores);
+  return await GGBNDB(name);
+};
 
 module.exports = {
   GGA, // GET GAMES API -- 120 Games
   GGBNA, // GET GAMES BY NAME API -- 20 Games
   GGBIA, // GET GAME BY ID API -- 1 Game
   GGDB, // GET GAMES DATABASE -- All Games in DB
-  GGBNDB,
+  GGBNDB, // GET GAMES BY NAME DATABASE
+  GGDBA, // GET GAME BY DATABASE & API
+  CG, //CREATE GAME
 };

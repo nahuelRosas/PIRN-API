@@ -1,4 +1,0 @@
-13/09/2022, 18:22:16 ---- index.js ---- Starting API
-13/09/2022, 18:22:16 ---- db.config.js ---- The connection to the database has been successfully established
-13/09/2022, 18:22:16 ---- index.js ---- WARNING: Listening on port: 3001
-13/09/2022, 18:22:16 ---- preLoad.utils.js ---- SUCCESS: Databases have been preloaded successfully

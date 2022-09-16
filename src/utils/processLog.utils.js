@@ -33,12 +33,12 @@ const PLE = async (
 
   let message =
     Context == "log" || Context == "rainbow"
-      ? `${messageBase}${_basename} ---- ${_Log}\n`
+      ? `\n${messageBase}${_basename} ---- ${_Log}`
       : Context == "error"
-      ? `${messageBase}${_basename} ---- ERROR: ${_Log}\n`
+      ? `\n${messageBase}${_basename} ---- ERROR: ${_Log}`
       : Context == "success"
-      ? `${messageBase}${_basename} ---- SUCCESS: ${_Log}\n`
-      : `${messageBase}${_basename} ---- WARNING: ${_Log}\n`;
+      ? `\n${messageBase}${_basename} ---- SUCCESS: ${_Log}`
+      : `\n${messageBase}${_basename} ---- WARNING: ${_Log}`;
 
   let CB = (err) => {
     if (err) {
@@ -54,7 +54,7 @@ const PLE = async (
       ? log.warning(`${message}`)
       : Context == "error"
       ? log.error(
-          `${message}${date} ---- The log has been modified => ${TEMP_DIR}`
+          `\n${message} \n${date} ---- The log has been modified => ${TEMP_DIR}`
         )
       : Context == "success"
       ? log.success(`${message}`)

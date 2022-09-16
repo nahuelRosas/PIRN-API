@@ -1,0 +1,5 @@
+
+16/09/2022, 16:52:47 ---- index.js ---- Starting API
+16/09/2022, 16:52:47 ---- db.config.js ---- The connection to the database has been successfully established
+16/09/2022, 16:52:47 ---- index.js ---- WARNING: Insecure Server on port 3443
+16/09/2022, 16:52:47 ---- preLoad.utils.js ---- SUCCESS: Databases have been preloaded successfully

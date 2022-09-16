@@ -18,6 +18,7 @@ module.exports = (sequelize) => {
       description: {
         type: DataTypes.TEXT,
         allowNull: false,
+        defaultValue: "",
       },
       released: {
         type: DataTypes.DATEONLY,
@@ -30,6 +31,7 @@ module.exports = (sequelize) => {
       },
       rating: {
         type: DataTypes.FLOAT,
+        defaultValue: 0,
       },
       createDB: {
         type: DataTypes.BOOLEAN,
