@@ -7,20 +7,10 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const EH = require("./errorHandler.middlewares");
+server.use(compression());
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 server.use(bodyParser.json({ limit: "50mb" }));
-server.use(
-  compression({
-    level: 9,
-    threshold: 100 * 1000,
-    filter: (req, res) => {
-      if (req.headers["x-no-compression"]) {
-        return false;
-      }
-      return compression.filter(req, res);
-    },
-  })
-);
+
 server.use(helmet());
 server.use(cookieParser());
 server.use(
@@ -40,6 +30,7 @@ server.use(
       : PLE(response, "MORGAN - Middleware");
   })
 );
+
 server.use("/", routes);
 server.use(EH);
 

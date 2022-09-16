@@ -1,5 +1,51 @@
 
-16/09/2022, 16:52:47 ---- index.js ---- Starting API
-16/09/2022, 16:52:47 ---- db.config.js ---- The connection to the database has been successfully established
-16/09/2022, 16:52:47 ---- index.js ---- WARNING: Insecure Server on port 3443
-16/09/2022, 16:52:47 ---- preLoad.utils.js ---- SUCCESS: Databases have been preloaded successfully
+16/09/2022, 19:07:07 ---- index.js ---- Starting API
+16/09/2022, 19:07:07 ---- db.config.js ---- The connection to the database has been successfully established
+16/09/2022, 19:07:07 ---- index.js ---- WARNING: Insecure Server on port 3443
+16/09/2022, 19:07:07 ---- preLoad.utils.js ---- SUCCESS: Databases have been preloaded successfully
+16/09/2022, 19:07:07 ---- MORGAN - Middleware ---- 
+    Remote Addr: ::ffff:127.0.0.1
+    Remote User: undefined
+    Method: GET
+    URL: /genres
+    HTTP Version: 1.1
+    Status: 200
+    Response Time: 4.111ms
+    User-Agent:Thunder Client (https://www.thunderclient.com)
+16/09/2022, 19:07:07 ---- MORGAN - Middleware ---- 
+    Remote Addr: ::ffff:127.0.0.1
+    Remote User: undefined
+    Method: GET
+    URL: /platforms
+    HTTP Version: 1.1
+    Status: 200
+    Response Time: 2.339ms
+    User-Agent:Thunder Client (https://www.thunderclient.com)
+16/09/2022, 19:07:07 ---- MORGAN - Middleware ---- 
+    Remote Addr: ::ffff:127.0.0.1
+    Remote User: undefined
+    Method: GET
+    URL: /stores
+    HTTP Version: 1.1
+    Status: 200
+    Response Time: 1.848ms
+    User-Agent:Thunder Client (https://www.thunderclient.com)
+16/09/2022, 19:07:07 ---- MORGAN - Middleware ---- 
+    Remote Addr: ::1
+    Remote User: undefined
+    Method: GET
+    URL: /videogames
+    HTTP Version: 1.1
+    Status: 200
+    Response Time: 5904.364ms
+    User-Agent:Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Mobile Safari/537.36
+16/09/2022, 19:07:07 ---- errorHandler.middlewares.js ---- ERROR: This page does not exist, from PIRN we apologize --- Status:500 
+16/09/2022, 19:07:07 ---- MORGAN - Middleware ---- ERROR: 
+    Remote Addr: ::1
+    Remote User: undefined
+    Method: GET
+    URL: /favicon.ico
+    HTTP Version: 1.1
+    Status: 500
+    Response Time: 1.210ms
+    User-Agent:Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Mobile Safari/537.36

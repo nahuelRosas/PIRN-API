@@ -29,7 +29,6 @@ const GGA = async () => {
 const IGDB = async () => {
   // IMPORT GENRES DATA BASE
   const GDB = await Genres.findAll({ raw: true });
-  //GDB => Get DataBase
   if (!GDB.length) {
     try {
       const _GGA = await GGA();
@@ -44,41 +43,53 @@ const IGDB = async () => {
 
 const GGBN = async (name) => {
   //GET GENRE BY NAME
-  let genre = await Genres.findAll({
-    where: { name: name },
-  });
-  return genre[0];
+  try {
+    let genre = await Genres.findAll({
+      where: { name: name },
+    });
+    return genre[0];
+  } catch (e) {
+    return PLE(e, __filename);
+  }
 };
 
 const MGA = async (array) => {
   //MAP GENRE ARRANGEMENT
-  let newArr = [];
-  if (!Array.isArray(array)) {
-    if (typeof array !== "string") {
-      return (array[0] = undefined);
+  try {
+    let newArr = [];
+    if (!Array.isArray(array)) {
+      if (typeof array !== "string") {
+        return (array[0] = undefined);
+      }
+      newArr.push(array);
+    } else {
+      newArr = [...array];
     }
-    newArr.push(array);
-  } else {
-    newArr = [...array];
+    const results = await Promise.all(
+      array.map(async (e) => {
+        return await GGBN(e);
+      })
+    );
+    const checkResults = [];
+    results.forEach((e) => {
+      if (e !== undefined) {
+        checkResults.push(e);
+      }
+    });
+    return checkResults;
+  } catch (e) {
+    return PLE(e, __filename);
   }
-  const results = await Promise.all(
-    array.map(async (e) => {
-      return await GGBN(e);
-    })
-  );
-  const checkResults = [];
-  results.forEach((e) => {
-    if (e !== undefined) {
-      checkResults.push(e);
-    }
-  });
-  return checkResults;
 };
 
 const AGV = async (videoGame, genres) => {
   //ADD GENRES VIDEOGAME
-  const _genres = await MGA(genres);
-  _genres[0] !== undefined ? videoGame.addGenres(_genres) : null;
+  try {
+    const _genres = await MGA(genres);
+    _genres[0] !== undefined ? videoGame.addGenres(_genres) : null;
+  } catch (e) {
+    return PLE(e, __filename);
+  }
 };
 
 module.exports = {

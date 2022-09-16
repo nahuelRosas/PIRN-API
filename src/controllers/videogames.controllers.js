@@ -1,5 +1,5 @@
 const { PLE } = require("../utils/processLog.utils");
-const { Op, where, fn, col } = require("sequelize");
+const { Op } = require("sequelize");
 const axios = require("axios");
 const { API_URL_V, API_KEY } = process.env;
 
@@ -10,18 +10,23 @@ const {
   Stores,
 } = require("../services/db.service");
 
+const config = {
+  headers: {
+    "Accept-Encoding": "gzip",
+  },
+};
 // !! -- GAMES BY API
 const GGA = async () => {
   // GET GAMES API -- 120 Games
   const games = [];
 
   let URL = `${API_URL_V}?key=${API_KEY}&page_size=40`;
-
   for (let i = 1; i <= 3; i++) {
+    if (i === 3) {
+      URL = URL.replace("&page_size=40", "&page_size=20");
+    }
     try {
-      let response =
-        //{ status: 400 }; // ==> Test Catch Error
-        await axios.get(URL);
+      let response = await axios.get(URL, config);
       response.data.results.forEach((element) => {
         games.push({
           id: element.id,
@@ -29,11 +34,19 @@ const GGA = async () => {
           released: element.released,
           background_image: element.background_image,
           rating: element.rating,
-          platforms: element.platforms.map((e) => e.platform.name),
-          genres: element.genres.map((e) => e.name),
-          stores: element.stores.map((e) => e.store.name),
+          platforms:
+            element.platforms !== null
+              ? element.platforms.map((e) => e.platform.name)
+              : null,
+          genres:
+            element.genres !== null ? element.genres.map((e) => e.name) : null,
+          stores:
+            element.stores !== null
+              ? element.stores.map((e) => e.store.name)
+              : null,
         });
       });
+
       URL = response.data.next;
     } catch (e) {
       return PLE(e, __filename, "error");
@@ -49,7 +62,7 @@ const GGBNA = async (Name) => {
   let URL = `${API_URL_V}?key=${API_KEY}&search=${Name}`;
 
   try {
-    let response = await axios.get(URL);
+    let response = await axios.get(URL, config);
     response.data.results.forEach((element) => {
       games.push({
         id: element.id,
@@ -82,7 +95,7 @@ const GGBIA = async (ID) => {
   let URL = `${API_URL_V}/${ID}?key=${API_KEY}`;
 
   try {
-    let response = await axios.get(URL);
+    let response = await axios.get(URL, config);
     game = {
       id: response.data.id,
       name: response.data.name,
@@ -139,6 +152,7 @@ const GGDB = async () => {
         genres: element.dataValues.genres.map((e) => e.dataValues.name),
         stores: element.dataValues.stores.map((e) => e.dataValues.name),
         description: element.dataValues.description,
+        createDB: element.dataValues.createDB,
       });
     });
     return games;
@@ -188,6 +202,7 @@ const GGBNDB = async (Name) => {
         genres: element.dataValues.genres.map((e) => e.dataValues.name),
         stores: element.dataValues.stores.map((e) => e.dataValues.name),
         description: element.dataValues.description,
+        createDB: element.dataValues.createDB,
       });
     });
     return games;
@@ -196,28 +211,90 @@ const GGBNDB = async (Name) => {
   }
 };
 
+const GGBIDB = async (ID) => {
+  // GET GAMES BY ID DATABASE
+  try {
+    let response = await Videogames.findByPk(ID, {
+      include: [
+        {
+          model: Genres,
+          through: {
+            attributes: [],
+          },
+        },
+        {
+          model: Platforms,
+          through: {
+            attributes: [],
+          },
+        },
+        {
+          model: Stores,
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
+    console.log(response);
+    let game = {
+      id: response.dataValues.id,
+      name: response.dataValues.name,
+      released: response.dataValues.released,
+      background_image: response.dataValues.background_image,
+      rating: response.dataValues.rating,
+      platforms: response.dataValues.platforms.map((e) => e.dataValues.name),
+      genres: response.dataValues.genres.map((e) => e.dataValues.name),
+      stores: response.dataValues.stores.map((e) => e.dataValues.name),
+      description: response.dataValues.description,
+      createDB: response.dataValues.createDB,
+    };
+    return game;
+  } catch (e) {
+    return PLE(e, __filename);
+  }
+};
+
 // !! -- GAMES CONCAT
 const GGDBA = async (testing = false, name) => {
   // GET GAME DATABASE & API
-  if (name === undefined) {
-    const _GGDB = await GGDB();
+  try {
+    if (name === undefined) {
+      const _GGDB = await GGDB();
+      if (!testing) {
+        const _GGA = await GGA();
+        const results = [..._GGA, ..._GGDB];
+        return results;
+      }
+      return _GGDB;
+    }
+    const _GGBNDB = await GGBNDB(name);
     if (!testing) {
-      const _GGA = await GGA();
-      const results = [..._GGA, ..._GGDB];
-      return results;
+      const _GGBNA = await GGBNA(name);
+      if (_GGBNA && _GGBNDB) {
+        const results = [..._GGBNDB, ..._GGBNA];
+        return results.slice(0, 16);
+      }
+      return "Not Found";
     }
-    return _GGDB;
+    return _GGBNDB;
+  } catch (e) {
+    return PLE(e, __filename);
   }
-  const _GGBNDB = await GGBNDB(name);
-  if (!testing) {
-    const _GGBNA = await GGBNA(name);
-    if (_GGBNA && _GGBNDB) {
-      const results = [..._GGBNDB, ..._GGBNA];
-      return results.slice(0, 16);
+};
+
+const GGDBABI = async (ID) => {
+  // GET GAME DATABASE & API BY ID
+  try {
+    if (!ID.includes("-")) {
+      let _GGBIA = await GGBIA(ID);
+      return _GGBIA;
     }
-    return "Not Found";
+    let _GGBIDB = await GGBIDB(ID);
+    return _GGBIDB;
+  } catch (e) {
+    return PLE(e, __filename);
   }
-  return _GGBNDB;
 };
 
 //! -- CREATE GAME
@@ -243,7 +320,7 @@ const CG = async (OBJ) => {
     rating: rating,
     description: description,
   });
- 
+
   if (genres !== undefined) AGV(game, genres);
   if (platforms !== undefined) APV(game, platforms);
   if (stores !== undefined) ASV(game, stores);
@@ -258,4 +335,5 @@ module.exports = {
   GGBNDB, // GET GAMES BY NAME DATABASE
   GGDBA, // GET GAME BY DATABASE & API
   CG, //CREATE GAME
+  GGDBABI, // GET GAME DATABASE & API BY ID
 };
