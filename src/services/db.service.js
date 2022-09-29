@@ -1,4 +1,4 @@
-const { conn } = require("../configs/db.config");
+const { conn } = require("../config/db.config");
 
 const path = require("path");
 const fs = require("fs");

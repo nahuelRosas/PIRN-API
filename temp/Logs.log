@@ -1,51 +1,211 @@
 
-16/09/2022, 19:07:07 ---- index.js ---- Starting API
-16/09/2022, 19:07:07 ---- db.config.js ---- The connection to the database has been successfully established
-16/09/2022, 19:07:07 ---- index.js ---- WARNING: Insecure Server on port 3443
-16/09/2022, 19:07:07 ---- preLoad.utils.js ---- SUCCESS: Databases have been preloaded successfully
-16/09/2022, 19:07:07 ---- MORGAN - Middleware ---- 
-    Remote Addr: ::ffff:127.0.0.1
-    Remote User: undefined
-    Method: GET
-    URL: /genres
-    HTTP Version: 1.1
-    Status: 200
-    Response Time: 4.111ms
-    User-Agent:Thunder Client (https://www.thunderclient.com)
-16/09/2022, 19:07:07 ---- MORGAN - Middleware ---- 
-    Remote Addr: ::ffff:127.0.0.1
-    Remote User: undefined
-    Method: GET
-    URL: /platforms
-    HTTP Version: 1.1
-    Status: 200
-    Response Time: 2.339ms
-    User-Agent:Thunder Client (https://www.thunderclient.com)
-16/09/2022, 19:07:07 ---- MORGAN - Middleware ---- 
-    Remote Addr: ::ffff:127.0.0.1
-    Remote User: undefined
-    Method: GET
-    URL: /stores
-    HTTP Version: 1.1
-    Status: 200
-    Response Time: 1.848ms
-    User-Agent:Thunder Client (https://www.thunderclient.com)
-16/09/2022, 19:07:07 ---- MORGAN - Middleware ---- 
-    Remote Addr: ::1
-    Remote User: undefined
-    Method: GET
-    URL: /videogames
-    HTTP Version: 1.1
-    Status: 200
-    Response Time: 5904.364ms
-    User-Agent:Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Mobile Safari/537.36
-16/09/2022, 19:07:07 ---- errorHandler.middlewares.js ---- ERROR: This page does not exist, from PIRN we apologize --- Status:500 
-16/09/2022, 19:07:07 ---- MORGAN - Middleware ---- ERROR: 
-    Remote Addr: ::1
-    Remote User: undefined
-    Method: GET
-    URL: /favicon.ico
-    HTTP Version: 1.1
-    Status: 500
-    Response Time: 1.210ms
-    User-Agent:Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Mobile Safari/537.36
+29/09/2022, 15:00:59 ---- index.js ---- Starting API
+29/09/2022, 15:01:00 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:01:00 ---- index.js ---- WARNING: Insecure Server on port 3443
+29/09/2022, 15:01:00 ---- preLoad.utils.js ---- SUCCESS: Databases have been preloaded successfully
+29/09/2022, 15:07:36 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:07:42 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 6056.517ms
+  User-Agent:undefined
+29/09/2022, 15:07:55 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:08:00 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 4834.663ms
+  User-Agent:undefined
+29/09/2022, 15:09:49 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:09:49 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:09:49 ---- videogames.controllers.js ---- SequelizeDatabaseError: relation "videogames" does not exist
+29/09/2022, 15:09:53 ---- videogames.controllers.js ---- TypeError: _GGDB is not iterable
+29/09/2022, 15:09:53 ---- MORGAN - Middleware ---- ERROR: 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 404
+  Response Time: 4698.944ms
+  User-Agent:undefined
+29/09/2022, 15:09:55 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 6547.322ms
+  User-Agent:undefined
+29/09/2022, 15:10:40 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:10:40 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:10:42 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:10:42 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:10:43 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 2603.835ms
+  User-Agent:undefined
+29/09/2022, 15:10:44 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 3865.978ms
+  User-Agent:undefined
+29/09/2022, 15:10:44 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 1917.965ms
+  User-Agent:undefined
+29/09/2022, 15:10:44 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 1694.741ms
+  User-Agent:undefined
+29/09/2022, 15:10:45 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:10:45 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:10:45 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:10:47 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 1822.125ms
+  User-Agent:undefined
+29/09/2022, 15:10:47 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:10:47 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:10:47 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 2259.303ms
+  User-Agent:undefined
+29/09/2022, 15:10:49 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 1619.304ms
+  User-Agent:undefined
+29/09/2022, 15:10:49 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 1715.986ms
+  User-Agent:undefined
+29/09/2022, 15:10:50 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:10:50 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:10:50 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:10:50 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:10:52 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 1690.481ms
+  User-Agent:undefined
+29/09/2022, 15:11:05 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:11:07 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 1824.136ms
+  User-Agent:undefined
+29/09/2022, 15:11:07 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:11:09 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 1731.436ms
+  User-Agent:undefined
+29/09/2022, 15:11:10 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:11:12 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 1784.687ms
+  User-Agent:undefined
+29/09/2022, 15:12:50 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:12:51 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 1764.348ms
+  User-Agent:undefined
+29/09/2022, 15:12:52 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:12:53 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 1701.942ms
+  User-Agent:undefined
+29/09/2022, 15:12:56 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:12:58 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 1871.464ms
+  User-Agent:undefined
+29/09/2022, 15:14:15 ---- db.config.js ---- The connection to the database has been successfully established
+29/09/2022, 15:14:17 ---- MORGAN - Middleware ---- 
+  Remote Addr: ::ffff:127.0.0.1
+  Remote User: undefined
+  Method: GET
+  URL: /videogames
+  HTTP Version: 1.1
+  Status: 200
+  Response Time: 1894.692ms
+  User-Agent:undefined

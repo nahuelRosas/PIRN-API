@@ -1,6 +1,7 @@
 const { PLE } = require("../utils/processLog.utils");
-const { API_URL_P, API_KEY } = process.env;
+const { Op } = require("sequelize");
 const axios = require("axios");
+const { API_URL_P, API_KEY } = process.env;
 
 const { Platforms } = require("../services/db.service");
 
@@ -25,7 +26,6 @@ const GPA = async () => {
   }
   return Platforms;
 };
-
 const IPDB = async () => {
   // IMPORT PLATFORMS DATA BASE
   const GDB = await Platforms.findAll({ raw: true });
@@ -41,19 +41,19 @@ const IPDB = async () => {
   }
   return GDB;
 };
-
 const GPBN = async (name) => {
   //GET PLATFORM BY NAME
   try {
     let platform = await Platforms.findAll({
-      where: { name: name },
+      where: {
+        name: { [Op.iLike]: `%${name}%` },
+      },
     });
     return platform[0];
   } catch (e) {
     return PLE(e, __filename);
   }
 };
-
 const MPA = async (array) => {
   //MAP PLATFORM ARRANGEMENT
   try {
@@ -82,7 +82,6 @@ const MPA = async (array) => {
     return PLE(e, __filename);
   }
 };
-
 const APV = async (videoGame, platforms) => {
   //ADD PLATFORMS VIDEOGAME
   try {
@@ -92,7 +91,6 @@ const APV = async (videoGame, platforms) => {
     return PLE(e, __filename);
   }
 };
-
 module.exports = {
   IPDB, // IMPORT PLATFORMS DATA BASE
   APV, //ADD PLATFORMS VIDEOGAME

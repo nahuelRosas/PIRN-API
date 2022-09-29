@@ -22,9 +22,6 @@ const GGA = async () => {
 
   let URL = `${API_URL_V}?key=${API_KEY}&page_size=40`;
   for (let i = 1; i <= 3; i++) {
-    if (i === 3) {
-      URL = URL.replace("&page_size=40", "&page_size=20");
-    }
     try {
       let response = await axios.get(URL, config);
       response.data.results.forEach((element) => {
@@ -100,6 +97,7 @@ const GGBIA = async (ID) => {
       id: response.data.id,
       name: response.data.name,
       released: response.data.released,
+      description: response.data.description_raw,
       background_image: response.data.background_image,
       rating: response.data.rating,
       platforms: response.data.platforms.map((e) => e.platform.name),
@@ -236,7 +234,6 @@ const GGBIDB = async (ID) => {
         },
       ],
     });
-    console.log(response);
     let game = {
       id: response.dataValues.id,
       name: response.dataValues.name,
@@ -257,7 +254,7 @@ const GGBIDB = async (ID) => {
 
 // !! -- GAMES CONCAT
 const GGDBA = async (testing = false, name) => {
-  // GET GAME DATABASE & API
+  // GET GAMES DATABASE & API
   try {
     if (name === undefined) {
       const _GGDB = await GGDB();
@@ -266,17 +263,21 @@ const GGDBA = async (testing = false, name) => {
         const results = [..._GGA, ..._GGDB];
         return results;
       }
+
       return _GGDB;
     }
+
     const _GGBNDB = await GGBNDB(name);
+
     if (!testing) {
       const _GGBNA = await GGBNA(name);
       if (_GGBNA && _GGBNDB) {
         const results = [..._GGBNDB, ..._GGBNA];
-        return results.slice(0, 16);
+        return results;
       }
       return "Not Found";
     }
+
     return _GGBNDB;
   } catch (e) {
     return PLE(e, __filename);

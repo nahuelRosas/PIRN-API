@@ -1,6 +1,7 @@
 const { PLE } = require("../utils/processLog.utils");
-const { API_URL_S, API_KEY } = process.env;
+const { Op } = require("sequelize");
 const axios = require("axios");
+const { API_URL_S, API_KEY } = process.env;
 
 const { Stores } = require("../services/db.service");
 
@@ -26,7 +27,6 @@ const GSA = async () => {
   }
   return Stores;
 };
-
 const ISDB = async () => {
   // IMPORT STORES DATA BASE
   const GDB = await Stores.findAll({ raw: true });
@@ -46,18 +46,19 @@ const GSBN = async (name) => {
   //GET STORE BY NAME
   try {
     let store = await Stores.findAll({
-      where: { name: name },
+      where: {
+        name: { [Op.iLike]: `%${name}%` },
+      },
     });
     return store[0];
   } catch (e) {
     return PLE(e, __filename);
   }
 };
-
 const MSA = async (array) => {
   //MAP STORE ARRANGEMENT
   try {
-    const newArr = [];
+    let newArr = [];
     if (!Array.isArray(array)) {
       if (typeof array !== "string") {
         return (array[0] = undefined);
@@ -82,7 +83,6 @@ const MSA = async (array) => {
     return PLE(e, __filename);
   }
 };
-
 const ASV = async (videoGame, stores) => {
   //ADD STORES VIDEOGAME
   try {

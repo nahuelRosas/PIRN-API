@@ -1,6 +1,7 @@
 const { PLE } = require("../utils/processLog.utils");
-const { API_URL_G, API_KEY } = process.env;
+const { Op } = require("sequelize");
 const axios = require("axios");
+const { API_URL_G, API_KEY } = process.env;
 
 const { Genres } = require("../services/db.service");
 
@@ -45,16 +46,21 @@ const GGBN = async (name) => {
   //GET GENRE BY NAME
   try {
     let genre = await Genres.findAll({
-      where: { name: name },
+      where: {
+        name: { [Op.iLike]: `%${name}%` },
+      },
     });
+
     return genre[0];
   } catch (e) {
+    console.log(e);
     return PLE(e, __filename);
   }
 };
 
 const MGA = async (array) => {
   //MAP GENRE ARRANGEMENT
+
   try {
     let newArr = [];
     if (!Array.isArray(array)) {
@@ -65,6 +71,7 @@ const MGA = async (array) => {
     } else {
       newArr = [...array];
     }
+
     const results = await Promise.all(
       array.map(async (e) => {
         return await GGBN(e);

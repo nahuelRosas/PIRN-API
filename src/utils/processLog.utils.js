@@ -13,8 +13,6 @@ const log = {
   warning: (e) => console.log(colors.bgYellow(e).bold),
   rainbow: (e) => console.log(colors.rainbow(e).bold),
 };
-const date = `${new Date().toLocaleString()}`;
-const messageBase = `${date} ---- `;
 
 const PLE = async (
   Log = "Function PLE ---> (LOG,FILENAME,CONTEXT,RESTART,,DIR)",
@@ -24,6 +22,9 @@ const PLE = async (
   Dir
 ) => {
   // Process Log Executor ==> Syntax for correct use: throw new Error(`Function GIA  ${__dirname}`);
+  const timestamp = Date.now();
+  const humanReadableDateTime = new Date(timestamp).toLocaleString();
+  const messageBase = `${humanReadableDateTime} ---- `;
 
   let dir = Dir || TEMP_DIR;
 
@@ -54,7 +55,7 @@ const PLE = async (
       ? log.warning(`${message}`)
       : Context == "error"
       ? log.error(
-          `\n${message} \n${date} ---- The log has been modified => ${TEMP_DIR}`
+          `\n${message} \n${humanReadableDateTime} ---- The log has been modified => ${TEMP_DIR}`
         )
       : Context == "success"
       ? log.success(`${message}`)

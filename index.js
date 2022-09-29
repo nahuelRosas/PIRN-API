@@ -1,7 +1,6 @@
 const { preLoad } = require("./src/utils/preLoad.utils");
 const { PLE } = require("./src/utils/processLog.utils");
 const { conn } = require("./src/services/db.service");
-
 const server = require("./src/server/index");
 
 require("dotenv").config();

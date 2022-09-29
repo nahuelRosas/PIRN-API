@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -L",
-    "test": "mocha -w ./tests/**/*.spec.js"
+    "test": "mocha -w ./tests/**/*.spec.js --watch-extensions"
   },
   "author": "Henry",
   "license": "ISC",
@@ -26,7 +26,7 @@
     "https": "^1.0.0",
     "morgan": "^1.10.0",
     "pg": "^8.5.1",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.23.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",

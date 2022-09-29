@@ -43,12 +43,14 @@ router.post("/", async (req, res) => {
         .status(400)
         .send("CODE: 400, Bad request: Missing required parameters");
     }
+
     const _GGBNDB = await GGBNDB(name);
     if (_GGBNDB.length != 0) {
       return res
         .status(409)
         .send("CODE: 409, Conflict: The name is already in use.");
     }
+
     await CG({
       name,
       released,
